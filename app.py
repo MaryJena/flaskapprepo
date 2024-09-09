@@ -33,11 +33,14 @@ def scrape_amazon():
     
     response = requests.get(amazon_url, headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
+    
     products = []
+    # Update the selector based on the current HTML structure
     for product in soup.find_all('span', class_="a-size-medium a-color-base a-text-normal"):
         products.append(product.get_text())
 
     return render_template('amazon.html', products=products)
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)
