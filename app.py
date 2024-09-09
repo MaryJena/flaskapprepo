@@ -27,17 +27,18 @@ def scrape_youtube():
 @app.route('/scrape_amazon')
 def scrape_amazon():
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.57'}
+
     
     amazon_url = "https://www.amazon.com/s?k=laptops"
     response = requests.get(amazon_url, headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
     
     products = []
-    for product in soup.find_all('span', class_="a-size-medium a-color-base a-text-normal"):
+    for product in soup.find_all('span.', class_="a-size-medium a-color-base a-text-normal"):
         products.append(product.get_text())
 
     return render_template('amazon.html', products=products)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5001) 
